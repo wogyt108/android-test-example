@@ -1,7 +1,6 @@
 package com.example.kotlin_app
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -23,7 +22,6 @@ import com.example.kotlin_app.ui.theme.KotlinappTheme
 import java.io.Serializable
 import android.os.Parcelable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.parcelize.Parcelize
 
@@ -45,6 +43,15 @@ data class CalculatorState (
             n2s.last() == '.' -> (n2s + "0").toDouble()
             else -> n2s.toDouble()
         }
+    fun sum() : CalculatorState {
+        return this.copy(rs = (n1 + n2).toString())
+    }
+    fun withN1S(s: String): CalculatorState {
+        return this.copy(n1s = s)
+    }
+    fun withN2S(s: String): CalculatorState {
+        return this.copy(n2s = s)
+    }
 }
 
 class MainActivity : ComponentActivity() {
@@ -71,8 +78,7 @@ class MainActivity : ComponentActivity() {
 fun Calculator(
     modifier: Modifier = Modifier
 ) {
-    var calculator by rememberSaveable { mutableStateOf(CalculatorState()) }
-    val doublePattern = remember { Regex("""^\d+(\.\d*)?$""") }
+    var c by rememberSaveable { mutableStateOf(CalculatorState()) }
     Column(
         modifier = modifier
     ) {
@@ -80,34 +86,16 @@ fun Calculator(
         val numberKeyboard = KeyboardOptions(
             keyboardType = KeyboardType.Number
         )
-        TextField(calculator.n1s, onValueChange = { newValue ->
-            if (newValue.isEmpty() || newValue.matches(doublePattern)) {
-                calculator = calculator.copy(n1s = newValue)
-            }
-        }, keyboardOptions = numberKeyboard, singleLine = true)
+        NumberField(c.n1s){c = c.withN1S(it)}
         Text("Второе число:")
-        TextField(calculator.n2s, onValueChange = { newValue ->
-            if (newValue.isEmpty() || newValue.matches(doublePattern)) {
-                calculator = calculator.copy(n2s = newValue)
-            }
-        }, keyboardOptions = numberKeyboard, singleLine = true)
-
+        NumberField(c.n2s){c = c.withN2S(it)}
         Button(
-            onClick = {
-                Log.d("DERP", "check out my stack trace")
-                val c = calculator
-                calculator = calculator.copy(rs = (c.n1s.toDouble() + c.n2s.toDouble()).toString())
-//                AlertDialog.Builder(activity)
-//                    .setMessage("Скоро будет считать ${calculatorState.value.firstNumber} + ${calculatorState.value.secondNumber}")
-//                    .setTitle("Проблема")
-//                    .setCancelable(true)
-//                    .create()
-//                    .show()
-            }) {
+            onClick = {c = c.sum()}
+        ){
             Text("+")
         }
         Text("Результат:")
-        Text(calculator.rs)
+        Text(c.rs)
     }
 }
 
@@ -119,3 +107,16 @@ fun GreetingPreview() {
     }
 }
 
+
+val doublePattern =  Regex("""^\d+(\.\d*)?$""")
+val numberKeyboard = KeyboardOptions(
+    keyboardType = KeyboardType.Number
+)
+@Composable
+fun NumberField(value: String, onValueChange: (String)->Unit) {
+    TextField(value, onValueChange = { newValue ->
+        if (newValue.isEmpty() || newValue.matches(doublePattern)) {
+            onValueChange(newValue)
+        }
+    }, keyboardOptions = numberKeyboard, singleLine = true)
+}
