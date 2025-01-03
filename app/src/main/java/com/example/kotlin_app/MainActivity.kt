@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,37 +14,14 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.kotlin_app.ui.theme.KotlinappTheme
-import java.io.Serializable
-import android.os.Parcelable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
-data class CalculatorState(
-    var n1s: String = "",
-    var n2s: String = "",
-    var rs: String = "",
-) : Parcelable, Serializable {
-    fun withN1S(s: String): CalculatorState {
-        return this.copy(n1s = s)
-    }
-
-    fun withN2S(s: String): CalculatorState {
-        return this.copy(n2s = s)
-    }
-
-    fun sum(): CalculatorState {
-        return this.copy(rs = (n1s.toDouble() + n2s.toDouble()).toString())
-    }
-
-}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,8 +54,20 @@ fun Calculator(
         NumberField(calc.n1s) { calc = calc.withN1S(it) }
         Text("Второе число:")
         NumberField(calc.n2s) { calc = calc.withN2S(it) }
-        Button(onClick = { calc = calc.sum() }) {
-            Text("+")
+
+        Row {
+            Button(onClick = { calc = calc.sum() }) {
+                Text("+")
+            }
+            Button(onClick = { calc = calc.sub() }) {
+                Text("-")
+            }
+            Button(onClick = { calc = calc.mul() }) {
+                Text("*")
+            }
+            Button(onClick = { calc = calc.div() }) {
+                Text("/")
+            }
         }
         Text("Результат:")
         Text(calc.rs)
