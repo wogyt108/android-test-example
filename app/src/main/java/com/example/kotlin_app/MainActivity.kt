@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -20,8 +21,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             KotlinappTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
+                    Calculator(
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -31,17 +31,18 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun Calculator(modifier: Modifier = Modifier) {
+    Column {
+        Text("Первое число:")
+        Text("Второе число:")
+        Text("Результат:")
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     KotlinappTheme {
-        Greeting("Android")
+        Calculator()
     }
 }
