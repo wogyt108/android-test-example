@@ -21,20 +21,24 @@ data class CalculatorState(
     fun sum(): CalculatorState {
         return this.copy(rs = (n1s.toDouble() + n2s.toDouble()).toString())
     }
+
     fun sub(): CalculatorState {
         return this.copy(rs = (n1s.toDouble() - n2s.toDouble()).toString())
     }
+
     fun mul(): CalculatorState {
         return this.copy(rs = (n1s.toDouble() * n2s.toDouble()).toString())
     }
+
     fun div(): CalculatorState {
         return this.copy(rs = (n1s.toDouble() / n2s.toDouble()).toString())
     }
 
-    fun hasN1() : Boolean {
+    fun hasN1(): Boolean {
         return runCatching { n1s.toDouble() }.isSuccess
     }
-    fun hasN2() : Boolean {
+
+    fun hasN2(): Boolean {
         return runCatching { n2s.toDouble() }.isSuccess
     }
 
