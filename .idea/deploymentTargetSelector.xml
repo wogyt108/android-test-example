@@ -5,13 +5,22 @@
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="MainActivity">
+      <SelectionState runConfigName="CalculatorTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ExampleKaumatorTest">
+      <SelectionState runConfigName="enableOnNonEmptyNumbers()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="testPlus()">
+      <SelectionState runConfigName="disableOnEmptyNumbers()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="ExampleInstrumentedTest2">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="enableButtonsIfHasNumbers()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="onlyNumbersInEdit()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

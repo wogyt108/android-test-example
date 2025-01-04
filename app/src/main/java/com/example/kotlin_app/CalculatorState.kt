@@ -31,4 +31,11 @@ data class CalculatorState(
         return this.copy(rs = (n1s.toDouble() / n2s.toDouble()).toString())
     }
 
+    fun hasN1() : Boolean {
+        return runCatching { n1s.toDouble() }.isSuccess
+    }
+    fun hasN2() : Boolean {
+        return runCatching { n2s.toDouble() }.isSuccess
+    }
+
 }

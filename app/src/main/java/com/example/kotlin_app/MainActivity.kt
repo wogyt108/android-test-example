@@ -60,38 +60,46 @@ fun Calculator(
         modifier = modifier.padding(horizontal = 10.dp)
     ) {
         Text("Первое число:")
-        NumberField("n1", calc.n1s) { calc = calc.withN1S(it) }
+        NumberField(id = "n1", value = calc.n1s) { calc = calc.withN1S(it) }
         Text("Второе число:")
-        NumberField("n2",calc.n2s) { calc = calc.withN2S(it) }
+        NumberField(id = "n2", value = calc.n2s) { calc = calc.withN2S(it) }
 
-        Row(horizontalArrangement =Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+        ) {
             Button(onClick = { calc = calc.sum() }, modifier = Modifier.semantics {
                 contentDescription = "sum"
-            }) {
+            }, enabled = calc.hasN1() && calc.hasN2()) {
                 Text("+")
             }
             Button(onClick = { calc = calc.sub() }, modifier = Modifier.semantics {
                 contentDescription = "sub"
-            }) {
+            }, enabled = calc.hasN1() && calc.hasN2()) {
                 Text("-")
             }
             Button(onClick = { calc = calc.mul() }, modifier = Modifier.semantics {
                 contentDescription = "mul"
-            }) {
+            }, enabled = calc.hasN1() && calc.hasN2()) {
                 Text("*")
             }
             Button(onClick = { calc = calc.div() }, modifier = Modifier.semantics {
                 contentDescription = "div"
-            }) {
+            }, enabled = calc.hasN1() && calc.hasN2()) {
                 Text("/")
             }
         }
         Text("Результат:")
         ClickableText(
             AnnotatedString(calc.rs),
-            onClick = {calc = calc.copy(n1s = calc.rs, rs = "") },
-            style = TextStyle(color = LocalContentColor.current)
+            onClick = { calc = calc.copy(n1s = calc.rs, rs = "") },
+            style = TextStyle(color = LocalContentColor.current),
+            modifier = Modifier.semantics {
+                contentDescription = "result"
+            }
+
         )
     }
 }
@@ -104,9 +112,9 @@ fun GreetingPreview() {
     }
 }
 
-var i = 0
+
 @Composable
-fun NumberField(id:String, value: String,  onValueChange: (String) -> Unit) {
+fun NumberField(id: String, value: String, onValueChange: (String) -> Unit) {
     val doublePattern = Regex("""^\d+(\.\d*)?$""")
     val numberKeyboard = KeyboardOptions(
         keyboardType = KeyboardType.Number
@@ -117,7 +125,9 @@ fun NumberField(id:String, value: String,  onValueChange: (String) -> Unit) {
         }
     }, keyboardOptions = numberKeyboard, singleLine = true,
         modifier =
-            Modifier.fillMaxWidth().semantics {
+        Modifier
+            .fillMaxWidth()
+            .semantics {
                 contentDescription = id
             })
 }

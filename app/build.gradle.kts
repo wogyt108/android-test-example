@@ -59,4 +59,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit.ktx)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    androidTestImplementation(libs.kakao)
+   androidTestImplementation(libs.kaspresso.compose.support)
 }
